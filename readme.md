@@ -14,7 +14,7 @@ bisa dilakukan program tersebut.
 
 ## Fitur
 
-- [ ] Batas waktu eksekusi (must have)
+- [x] Batas waktu eksekusi (must have)
 - [ ] Batas memori dan jumlah proses
 - [ ] Eksekusi sebagai `sandboxuser` di folder kerja terpisah
 - [ ] Log setiap eksekusi
