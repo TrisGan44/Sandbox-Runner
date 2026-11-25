@@ -9,7 +9,6 @@ Program Studi **D4 Rekayasa Keamanan Siber – Politeknik Negeri Jakarta**
 | **Cello Gemayel Aswan** | Pengembang Inti (*Resource & Isolation*) | Implementasi pembatasan sumber daya (`setrlimit`: CPU, RAM, NPROC) & isolasi direktori sementara |
 | **Muhammad Farrelivo Kafka Herdian** | Pengembang Inti (*Process & Execution*) | Implementasi eksekusi *child process* (`subprocess`), penanganan *timeout*, & tangkapan output |
 | **Rosa Salsabillah Putri Wardoyo** | Penguji (QA) & Dokumentator | Penyusunan skrip uji berbahaya (`tests/`), dokumen proposal (`docs/PROPOSAL.md`), & `CHANGELOG.md` |
-EOF
 
 # Sandbox Runner
 
