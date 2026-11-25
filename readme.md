@@ -40,7 +40,12 @@ bisa dilakukan program tersebut.
 
 ## Cara Menjalankan
 
-Belum tersedia, akan dilengkapi setelah fitur must have selesai.
+```bash
+chmod 700 src/sandbox.sh
+./src/sandbox.sh sleep 100
+# Batas waktu (detik): 2
+# DIHENTIKAN: lewat batas waktu
+```
 
 ## Batasan
 
