@@ -1,5 +1,6 @@
 #!/bin/bash
-timeout 3 "$@"
+read -p "Batas waktu (detik): " BATAS
+timeout "$BATAS" "$@"
 KODE=$?
 
 if [ $KODE -eq 124 ]; then
