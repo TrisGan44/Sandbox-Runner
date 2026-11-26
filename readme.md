@@ -53,9 +53,11 @@ Menjalankan skrip dari sumber yang tidak jelas menggunakan akun utama berisiko t
    ```
    *Contoh interaksi di terminal:*
    ```text
-   Batas waktu (detik) [default 3]: 2
+   Batas waktu (detik): 2
+   Batas memori (MB): 64
    DIHENTIKAN: lewat batas waktu (2s)
    ```
+   Batas memori dimasukkan dalam MB dan diterapkan sebagai batas memori virtual melalui `ulimit -v` (dikonversi ke KB). Masukkan bilangan bulat lebih dari 0.
 
 3. **Periksa riwayat eksekusi pada file log:**
    ```bash
