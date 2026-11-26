@@ -14,3 +14,8 @@
 - Menambahkan input batas memori dalam MB saat skrip dijalankan
 - Menerapkan batas memori virtual menggunakan `ulimit -v`, dengan konversi MB ke KB
 - Memvalidasi input agar berupa bilangan bulat lebih dari 0
+
+## v0.4 (2026-11-26)
+
+- Memvalidasi input batas waktu agar berupa bilangan bulat lebih dari 0
+- Input tidak valid (huruf, 0, angka negatif, angka berawalan 0) ditolak sebelum program dijalankan
