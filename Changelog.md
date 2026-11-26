@@ -19,3 +19,10 @@
 
 - Memvalidasi input batas waktu agar berupa bilangan bulat lebih dari 0
 - Input tidak valid (huruf, 0, angka negatif, angka berawalan 0) ditolak sebelum program dijalankan
+
+## v0.5 (2026-11-26)
+
+- Menolak eksekusi jika tidak ada program yang diberikan
+- Menambahkan SIGKILL cadangan 1 detik setelah SIGTERM (`timeout -k 1s`)
+- Menampilkan pesan hasil berbeda untuk tiap kode keluar (0, 124, 137, 126/127)
+- Menambahkan skrip uji: memori, fork bomb, dan akses berkas sensitif
