@@ -29,11 +29,11 @@ Menjalankan skrip dari sumber yang tidak jelas menggunakan akun utama berisiko t
 **Sudah berjalan**
 
 - [x] **Batas waktu eksekusi (`timeout`)**: batas dalam detik ditanyakan ke pengguna; program yang melewati batas dihentikan otomatis.
+- [x] **Validasi batas waktu**: input harus bilangan bulat lebih dari 0.
 - [x] **Batas memori virtual (`ulimit -v`)**: batas dalam MB ditanyakan ke pengguna, dikonversi ke KB, dan divalidasi harus bilangan bulat lebih dari 0.
 
 **Direncanakan** (lihat jadwal di `docs/PROPOSAL.md`)
 
-- [ ] Validasi input batas waktu
 - [ ] Batas jumlah proses (`ulimit -u`)
 - [ ] Eksekusi sebagai `sandboxuser` di folder kerja sementara
 - [ ] Log setiap eksekusi
