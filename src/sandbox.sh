@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $# -lt 1 ]]; then
+    echo "Penggunaan: $0 <program> [argumen...]"
+    exit 1
+fi
+
 # ===== 1. Batas waktu =====
 read -p "Batas waktu (detik): " BATAS
 
@@ -30,13 +35,14 @@ ulimit -v "$MEMORI_KB" || {
     exit 1
 }
 
-# ===== 3. Jalankan program =====
-timeout "$BATAS" "$@"
+# Eksekusi child process dengan timeout & eskalasi sinyal SIGKILL (-k 1s)
+timeout -k 1s "$BATAS" "$@"
 KODE=$?
 
-# ===== 4. Tampilkan hasil =====
-if [ $KODE -eq 124 ]; then
-    echo "DIHENTIKAN: lewat batas waktu"
-else
-    echo "Selesai, kode $KODE"
-fi
+case $KODE in
+    0)   echo "Selesai normal (kode 0)" ;;
+    124) echo "DIHENTIKAN: lewat batas waktu (SIGTERM)" ;;
+    137) echo "DIHENTIKAN PAKSA: tidak berhenti setelah SIGTERM (SIGKILL)" ;;
+    126|127) echo "ERROR: program tidak ditemukan atau tidak bisa dieksekusi (kode $KODE)" ;;
+    *)   echo "Selesai / dihentikan, kode $KODE" ;;
+esac
