@@ -1,5 +1,6 @@
-# Sandbox Runner (v1.0)
-Skrip *wrapper* berbasis Bash untuk menjalankan program yang tidak dipercaya dengan batas waktu, memori, dan jumlah proses, sebagai *user* khusus berhak minim (`sandboxuser`).
+# Sandbox Runner (v0.3)
+
+Skrip *wrapper* berbasis Bash untuk menjalankan program yang tidak dipercaya dengan batas sumber daya, agar program yang bermasalah tidak membuat sistem *hang*.
 
 **Proyek Kelompok Mata Kuliah Sistem Operasi (TIK103)**  
 Program Studi D4 Rekayasa Keamanan Siber – Politeknik Negeri Jakarta
@@ -18,58 +19,89 @@ Program Studi D4 Rekayasa Keamanan Siber – Politeknik Negeri Jakarta
 ---
 
 ## Latar Belakang
-Menjalankan skrip dari sumber yang tidak jelas menggunakan akun utama berisiko tinggi. Program berbahaya atau *buggy* dapat membuat sistem *hang* (*infinite loop*, *fork bomb*, konsumsi RAM berlebih) atau merusak berkas pribadi pengguna. **Sandbox Runner** hadir untuk membatasi konsumsi sumber daya dan hak akses program tersebut pada tingkat Sistem Operasi.
+
+Menjalankan skrip dari sumber yang tidak jelas menggunakan akun utama berisiko tinggi. Program berbahaya atau *buggy* dapat membuat sistem *hang* (*infinite loop*, *fork bomb*, konsumsi RAM berlebih) atau menyentuh berkas pribadi pengguna. **Sandbox Runner** membatasi konsumsi sumber daya dan hak akses program tersebut pada tingkat Sistem Operasi.
 
 ---
 
-## Fitur Utama (v1.0 - Selesai)
-- [x] **Batas waktu eksekusi (`timeout`)** — Menghentikan proses otomatis jika melewati batas detik yang ditentukan.
-- [x] **Batas memori dan jumlah proses (`ulimit`)** — Membatasi memori virtual maksimal 64 MB (`ulimit -v 65536`) dan maksimal 15 proses (`ulimit -u 15`).
-- [x] **Eksekusi sebagai `sandboxuser` di folder kerja sementara** — Membuat *user* sistem tanpa akses *login* dan ruang kerja terisolasi di `/tmp/sandbox_XXXXXX`.
-- [x] **Log setiap eksekusi** — Mencatat waktu mulai, perintah, batas waktu, dan status hasil ke dalam berkas `sandbox.log`.
-- [x] **Pembersihan folder kerja otomatis** — Menggunakan mekanisme `trap` untuk menghapus seluruh berkas sisa eksekusi setelah selesai.
+## Fitur
+
+**Sudah berjalan**
+
+- [x] **Batas waktu eksekusi (`timeout`)**: batas dalam detik ditanyakan ke pengguna; program yang melewati batas dihentikan otomatis.
+- [x] **Batas memori virtual (`ulimit -v`)**: batas dalam MB ditanyakan ke pengguna, dikonversi ke KB, dan divalidasi harus bilangan bulat lebih dari 0.
+
+**Direncanakan** (lihat jadwal di `docs/PROPOSAL.md`)
+
+- [ ] Validasi input batas waktu
+- [ ] Batas jumlah proses (`ulimit -u`)
+- [ ] Eksekusi sebagai `sandboxuser` di folder kerja sementara
+- [ ] Log setiap eksekusi
+- [ ] Pembersihan folder kerja otomatis
 
 ---
 
 ## Kebutuhan Sistem
-* **Sistem Operasi:** Linux (diuji di Ubuntu 22.04 / 24.04 LTS) di dalam Mesin Virtual (VM).
-* **Interpreter & Shell:** Bash (`/bin/bash`) dan Python 3 (untuk menjalankan skrip uji memori).
-* **Hak Akses:** Akses `sudo` (diperlukan untuk membuat `sandboxuser` dan mengatur kepemilikan folder sementara).
+
+* **Sistem Operasi:** Linux di dalam Mesin Virtual (VM).
+- **Shell:** Bash (`/bin/bash`).
+- **Opsional:** Python 3, untuk skenario uji memori.
 
 ---
 
 ## Cara Menjalankan
 
 1. **Kloning repositori dan beri izin eksekusi:**
+
    ```bash
-   git clone https://github.com
+   git clone https://github.com/TrisGan44/Sandbox-Runner.git
    cd Sandbox-Runner
    chmod 700 src/sandbox.sh
    ```
 
-2. **Jalankan perintah atau skrip uji di dalam sandbox:**
+2. **Jalankan program di dalam sandbox:**
+
    ```bash
-   sudo ./src/sandbox.sh sleep 100
+   ./src/sandbox.sh sleep 100
    ```
-   *Contoh interaksi di terminal:*
+
+   Contoh interaksi di terminal:
+
    ```text
    Batas waktu (detik): 2
    Batas memori (MB): 64
-   DIHENTIKAN: lewat batas waktu (2s)
+   DIHENTIKAN: lewat batas waktu
    ```
-   Batas memori dimasukkan dalam MB dan diterapkan sebagai batas memori virtual melalui `ulimit -v` (dikonversi ke KB). Masukkan bilangan bulat lebih dari 0.
 
-3. **Periksa riwayat eksekusi pada file log:**
+3. **Jalankan skrip uji:**
+
    ```bash
-   cat sandbox.log
+   ./src/sandbox.sh bash tests/test_normal.sh
+   ./src/sandbox.sh bash tests/test_infinite_loop.sh
    ```
+
+> Jangan menjalankan skrip ini dengan `sudo`. Tanpa fitur `sandboxuser`, `sudo` membuat program di dalamnya berjalan sebagai root.
+
+---
+
+## Struktur Repositori
+
+```text
+├── src/sandbox.sh       skrip utama
+├── tests/               skrip uji
+├── docs/PROPOSAL.md     proposal proyek
+├── Changelog.md         riwayat versi
+└── readme.md
+```
 
 ---
 
 ## Batasan Sistem
-Sandbox Runner adalah pembatas sumber daya (*resource limiter*) dan pengatur hak akses pada tingkat proses, **bukan isolasi penuh** layaknya Virtual Machine atau Docker. Program yang dijalankan masih dapat membaca berkas sistem yang memiliki izin baca publik (seperti `/etc/passwd`) dan mengakses jaringan selama tidak dibatasi oleh *namespace* jaringan.
+
+Sandbox Runner adalah pembatas sumber daya (*resource limiter*) pada tingkat proses, **bukan isolasi penuh** layaknya Virtual Machine atau Docker. Program yang dijalankan masih dapat membaca berkas yang terbuka untuk semua user (misalnya `/etc/passwd`) dan mengakses jaringan.
 
 ---
 
 ## ⚠️ Peringatan Keamanan
-Skrip ini membutuhkan `sudo`, menambahkan *user* sistem (`sandboxuser`), dan skrip di folder `tests/` sengaja dirancang untuk menguji beban ekstrem. **Jalankan hanya di dalam Mesin Virtual (VM).**
+
+Skrip di folder `tests/` sengaja dirancang untuk menguji beban ekstrem. **Jalankan hanya di dalam Mesin Virtual (VM)**, dan buat *snapshot* sebelum pengujian.
