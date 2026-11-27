@@ -26,7 +26,6 @@ if ! [[ "$MEMORI" =~ ^[1-9][0-9]*$ ]] || [ "$MEMORI" -lt 16 ]; then
 fi
 
 # ulimit -v menerima ukuran dalam KB.
-
 MEMORI_KB=$((MEMORI * 1024))
 ulimit -v "$MEMORI_KB" || {
     echo "Gagal menerapkan batas memori"

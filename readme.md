@@ -1,4 +1,4 @@
-# Sandbox Runner (v0.5)
+# Sandbox Runner (v0.6)
 
 Skrip *wrapper* berbasis Bash untuk menjalankan program yang tidak dipercaya dengan batas sumber daya, agar program yang bermasalah tidak membuat sistem *hang*.
 
