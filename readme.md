@@ -28,15 +28,15 @@ Menjalankan skrip dari sumber yang tidak jelas menggunakan akun utama berisiko t
 
 **Sudah berjalan**
 
-- [x] **Batas waktu eksekusi (`timeout`)**: batas dalam detik ditanyakan ke pengguna; program yang melewati batas dihentikan otomatis.
+- [x] **Batas waktu eksekusi (`timeout`)**: batas dalam detik ditanyakan ke pengguna; program yang melewati batas dihentikan, dan dipaksa berhenti (SIGKILL) 1 detik kemudian jika tidak merespons.
 - [x] **Validasi batas waktu**: input harus bilangan bulat lebih dari 0.
-- [x] **Batas memori virtual (`ulimit -v`)**: batas dalam MB ditanyakan ke pengguna, dikonversi ke KB, dan divalidasi harus bilangan bulat lebih dari 0.
+- [x] **Batas memori virtual (`ulimit -v`)**: batas dalam MB ditanyakan ke pengguna, minimal 16 MB.
+- [x] **Batas jumlah proses (`ulimit -u`)**: sandbox mendapat jatah 30 proses di atas jumlah yang sudah berjalan.
 
 **Direncanakan** (lihat jadwal di `docs/PROPOSAL.md`)
 
-- [ ] Batas jumlah proses (`ulimit -u`)
-- [ ] Eksekusi sebagai `sandboxuser` di folder kerja sementara
 - [ ] Log setiap eksekusi
+- [ ] Eksekusi sebagai `sandboxuser` di folder kerja sementara
 - [ ] Pembersihan folder kerja otomatis
 
 ---

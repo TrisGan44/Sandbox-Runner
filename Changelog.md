@@ -26,3 +26,9 @@
 - Menambahkan SIGKILL cadangan 1 detik setelah SIGTERM (`timeout -k 1s`)
 - Menampilkan pesan hasil berbeda untuk tiap kode keluar (0, 124, 137, 126/127)
 - Menambahkan skrip uji: memori, fork bomb, dan akses berkas sensitif
+
+## v0.6 (2026-11-26)
+
+- Menambahkan batas jumlah proses menggunakan `ulimit -u`
+- Batas dihitung dari jumlah thread milik user yang sedang berjalan ditambah 30 jatah untuk sandbox
+- Batas memori sekarang minimal 16 MB, karena di bawah itu program dasar seperti `bash` dan `timeout` tidak bisa berjalan
